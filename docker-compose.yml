@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  eureka-server:
+    build: ./eureka-server
+    ports:
+      - "8761:8761"
+    networks:
+      - art-network
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
+    networks:
+      - art-network
+
+  auth-service:
+    build: ./auth-service
+    depends_on:
+      - eureka-server
+    networks:
+      - art-network
+
+  art-service:
+    build: ./art-service
+    depends_on:
+      - eureka-server
+    networks:
+      - art-network
+
+  cart-service:
+    build: ./cart-service
+    depends_on:
+      - eureka-server
+    networks:
+      - art-network
+
+networks:
+  art-network:
